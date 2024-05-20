@@ -15,11 +15,20 @@ import java.io.Serializable;
 @Data
 public class QuestionQueryRequest extends PageRequest implements Serializable {
 
+    /**
+     * id
+     */
+    private Long id;
 
     /**
      * 应用 ID
      */
     private Long appId;
+
+    /**
+     * 问题内容
+     */
+    private String questionContent;
 
 
     /**
