@@ -1,6 +1,8 @@
 package com.cong.lunarsurvey.model.vo;
 
+import com.cong.lunarsurvey.model.entity.App;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -75,4 +77,33 @@ public class AppVO implements Serializable {
     private UserVO user;
 
 
+    /**
+     * VO 为 OBJ
+     *
+     * @param appVO 应用 vo
+     * @return {@link App }
+     */
+    public static App voToObj(AppVO appVO) {
+        if (appVO == null) {
+            return null;
+        }
+        App app = new App();
+        BeanUtils.copyProperties(appVO, app);
+        return app;
+    }
+
+    /**
+     * obj 为 vo
+     *
+     * @param app 应用程序
+     * @return {@link AppVO }
+     */
+    public static AppVO objToVo(App app) {
+        if (app == null) {
+            return null;
+        }
+        AppVO appVO = new AppVO();
+        BeanUtils.copyProperties(app, appVO);
+        return appVO;
+    }
 }
