@@ -3,6 +3,7 @@ package com.cong.lunarsurvey.model.dto.useranswer;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 更新用户答题记录请求
@@ -35,7 +36,7 @@ public class UserAnswerUpdateRequest implements Serializable {
     /**
      * 用户答题结果（JSON 数组）
      */
-    private String choices;
+    private List<String> choices;
 
     /**
      * 结果 ID
