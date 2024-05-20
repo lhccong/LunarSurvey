@@ -3,6 +3,7 @@ package com.cong.lunarsurvey.model.dto.question;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 编辑题目请求
@@ -20,7 +21,7 @@ public class QuestionEditRequest implements Serializable {
     /**
      * 问题内容
      */
-    private String questionContent;
+    private List<QuestionContentDTO> questionContent;
 
     /**
      * 应用 ID
