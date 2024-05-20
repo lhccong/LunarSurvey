@@ -16,9 +16,19 @@ import java.io.Serializable;
 public class AppQueryRequest extends PageRequest implements Serializable {
 
     /**
+     * id
+     */
+    private Long id;
+
+    /**
      * 应用名称
      */
     private String appName;
+
+    /**
+     * 应用描述
+     */
+    private String appDesc;
 
     /**
      * 应用类型
