@@ -3,6 +3,7 @@ package com.cong.lunarsurvey.model.dto.scoringresult;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 创建评分结果请求
@@ -31,7 +32,7 @@ public class ScoringResultAddRequest implements Serializable {
     /**
      * 结果属性集合 JSON，如 [I,S,T,J]
      */
-    private String resultProp;
+    private List<String> resultProp;
 
     /**
      * 结果分数范围
