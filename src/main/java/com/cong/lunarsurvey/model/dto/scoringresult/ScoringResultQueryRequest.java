@@ -15,6 +15,10 @@ import java.io.Serializable;
 @Data
 public class ScoringResultQueryRequest extends PageRequest implements Serializable {
 
+    /**
+     * id
+     */
+    private Long id;
 
     /**
      * 应用 ID
