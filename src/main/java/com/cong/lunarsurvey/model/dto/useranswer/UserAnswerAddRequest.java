@@ -19,16 +19,6 @@ public class UserAnswerAddRequest implements Serializable {
     private Long appId;
 
     /**
-     * 应用类型
-     */
-    private Integer appType;
-
-    /**
-     * 评分策略
-     */
-    private Integer scoringStrategy;
-
-    /**
      * 用户答案（JSON 数组）
      */
     private List<String> choices;
