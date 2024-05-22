@@ -37,7 +37,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/scoringResult")
 @Slf4j
-@Api(tags = "评分结果接口")
+@Api(value = "评分结果接口")
 public class ScoringResultController {
 
     @Resource

@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/oauth")
-@Api(tags = "Github 登录相关")
+@Api(value = "Github 登录相关")
 public class RestAuthController {
     @Resource
     private GitHubConfig gitHubConfig;

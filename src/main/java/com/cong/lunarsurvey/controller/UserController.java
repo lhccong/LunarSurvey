@@ -51,7 +51,7 @@ import static com.cong.lunarsurvey.constant.SystemConstants.SALT;
 @RestController
 @RequestMapping("/user")
 @Slf4j
-@Api(tags = "用户相关")
+@Api(value = "用户相关")
 public class UserController {
 
     @Resource

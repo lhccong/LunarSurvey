@@ -32,7 +32,7 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/app")
 @Slf4j
-@Api(tags = "应用接口")
+@Api(value = "应用接口")
 public class AppController {
 
     @Resource

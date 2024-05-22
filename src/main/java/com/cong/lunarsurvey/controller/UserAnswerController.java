@@ -36,7 +36,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/userAnswer")
 @Slf4j
-@Api(tags = "用户答题记录接口")
+@Api(value = "用户答题记录接口")
 public class UserAnswerController {
 
     @Resource

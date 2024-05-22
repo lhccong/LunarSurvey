@@ -34,7 +34,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/question")
 @Slf4j
-@Api(tags = "题目接口")
+@Api(value = "题目接口")
 public class QuestionController {
 
     @Resource

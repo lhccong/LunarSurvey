@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/${dataKey}")
 @Slf4j
-@Api(tags = "${dataName}接口")
+@Api(value = "${dataName}接口")
 public class ${upperDataKey}Controller {
 
     @Resource
