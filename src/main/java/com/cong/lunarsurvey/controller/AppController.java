@@ -2,10 +2,7 @@ package com.cong.lunarsurvey.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cn.dev33.satoken.annotation.SaCheckRole;
-import com.cong.lunarsurvey.common.BaseResponse;
-import com.cong.lunarsurvey.common.DeleteRequest;
-import com.cong.lunarsurvey.common.ErrorCode;
-import com.cong.lunarsurvey.common.ResultUtils;
+import com.cong.lunarsurvey.common.*;
 import com.cong.lunarsurvey.constant.UserConstant;
 import com.cong.lunarsurvey.exception.BusinessException;
 import com.cong.lunarsurvey.exception.ThrowUtils;
@@ -15,6 +12,7 @@ import com.cong.lunarsurvey.model.dto.app.AppQueryRequest;
 import com.cong.lunarsurvey.model.dto.app.AppUpdateRequest;
 import com.cong.lunarsurvey.model.entity.App;
 import com.cong.lunarsurvey.model.entity.User;
+import com.cong.lunarsurvey.model.enums.ReviewStatusEnum;
 import com.cong.lunarsurvey.model.vo.AppVO;
 import com.cong.lunarsurvey.service.AppService;
 import com.cong.lunarsurvey.service.UserService;
@@ -25,6 +23,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * 应用接口
@@ -235,4 +235,17 @@ public class AppController {
     }
 
     // endregion
+
+    /**
+     * 应用审核
+     *
+     * @param reviewRequest 审核请求
+     * @return {@link BaseResponse }<{@link Boolean }>
+     */
+    @PostMapping("/review")
+    @SaCheckRole(UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> doAppReview(@RequestBody ReviewRequest reviewRequest) {
+        appService.doAppReview(reviewRequest);
+        return ResultUtils.success(true);
+    }
 }
