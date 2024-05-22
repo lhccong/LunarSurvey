@@ -214,7 +214,7 @@ public class UserAnswerServiceImpl extends ServiceImpl<UserAnswerMapper, UserAns
         }
         //填充默认值
         User loginUser = userService.getLoginUser();
-        userAnswer.setId(loginUser.getId());
+        userAnswer.setUserId(loginUser.getId());
         // 写入数据库
         boolean result = this.save(userAnswer);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
