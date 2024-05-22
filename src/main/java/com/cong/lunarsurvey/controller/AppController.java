@@ -12,7 +12,6 @@ import com.cong.lunarsurvey.model.dto.app.AppQueryRequest;
 import com.cong.lunarsurvey.model.dto.app.AppUpdateRequest;
 import com.cong.lunarsurvey.model.entity.App;
 import com.cong.lunarsurvey.model.entity.User;
-import com.cong.lunarsurvey.model.enums.ReviewStatusEnum;
 import com.cong.lunarsurvey.model.vo.AppVO;
 import com.cong.lunarsurvey.service.AppService;
 import com.cong.lunarsurvey.service.UserService;
@@ -23,8 +22,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 /**
  * 应用接口
@@ -61,7 +58,7 @@ public class AppController {
         // 数据校验
         appService.validApp(app, true);
         User loginUser = userService.getLoginUser();
-        app.setId(loginUser.getId());
+        app.setUserId(loginUser.getId());
         // 写入数据库
         boolean result = appService.save(app);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);

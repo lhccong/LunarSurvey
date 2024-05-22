@@ -64,7 +64,7 @@ public class QuestionController {
         questionService.validQuestion(question, true);
         //填充默认值
         User loginUser = userService.getLoginUser();
-        question.setId(loginUser.getId());
+        question.setUserId(loginUser.getId());
         // 写入数据库
         boolean result = questionService.save(question);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);

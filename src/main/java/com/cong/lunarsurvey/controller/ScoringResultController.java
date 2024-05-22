@@ -67,7 +67,7 @@ public class ScoringResultController {
         scoringResultService.validScoringResult(scoringResult, true);
         //填充默认值
         User loginUser = userService.getLoginUser();
-        scoringResult.setId(loginUser.getId());
+        scoringResult.setUserId(loginUser.getId());
         // 写入数据库
         boolean result = scoringResultService.save(scoringResult);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
