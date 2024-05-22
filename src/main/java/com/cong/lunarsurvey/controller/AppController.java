@@ -241,6 +241,7 @@ public class AppController {
      */
     @PostMapping("/review")
     @SaCheckRole(UserConstant.ADMIN_ROLE)
+    @ApiOperation(value = "管理员审核接口")
     public BaseResponse<Boolean> doAppReview(@RequestBody ReviewRequest reviewRequest) {
         appService.doAppReview(reviewRequest);
         return ResultUtils.success(true);
