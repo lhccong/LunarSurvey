@@ -36,7 +36,7 @@ public interface UserService extends IService<User> {
      * @param userPassword 用户密码
      * @return 脱敏后的用户信息
      */
-    LoginUserVO userLogin(String userAccount, String userPassword);
+    TokenLoginUserVo userLogin(String userAccount, String userPassword);
 
     /**
      * 用户通过 MP Open 登录
