@@ -84,7 +84,7 @@ public class UserAnswer implements Serializable {
     /**
      * 是否删除
      */
-    @TableField(value = "is_delete")
+    @TableField(value = "isDelete")
     private Integer isDelete;
 
     @TableField(exist = false)
