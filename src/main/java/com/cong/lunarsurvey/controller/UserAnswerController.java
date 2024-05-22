@@ -45,6 +45,8 @@ public class UserAnswerController {
     @Resource
     private UserService userService;
 
+
+
     // region 增删改查
 
     /**
@@ -56,22 +58,8 @@ public class UserAnswerController {
     @PostMapping("/add")
     @ApiOperation(value = "创建用户答题记录")
     public BaseResponse<Long> addUserAnswer(@RequestBody UserAnswerAddRequest userAnswerAddRequest) {
-        ThrowUtils.throwIf(userAnswerAddRequest == null, ErrorCode.PARAMS_ERROR);
-        // 在此处将实体类和 DTO 进行转换
-        UserAnswer userAnswer = new UserAnswer();
-        BeanUtils.copyProperties(userAnswerAddRequest, userAnswer);
-        List<String> choices = userAnswerAddRequest.getChoices();
-        userAnswer.setChoices(JSONUtil.toJsonStr(choices));
-        // 数据校验
-        userAnswerService.validUserAnswer(userAnswer, true);
-        //填充默认值
-        User loginUser = userService.getLoginUser();
-        userAnswer.setId(loginUser.getId());
-        // 写入数据库
-        boolean result = userAnswerService.save(userAnswer);
-        ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
-        // 返回新写入的数据 id
-        long newUserAnswerId = userAnswer.getId();
+        long newUserAnswerId = userAnswerService.addUserAnswer(userAnswerAddRequest);
+
         return ResultUtils.success(newUserAnswerId);
     }
 

@@ -3,6 +3,7 @@ package com.cong.lunarsurvey.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cong.lunarsurvey.model.dto.useranswer.UserAnswerAddRequest;
 import com.cong.lunarsurvey.model.dto.useranswer.UserAnswerQueryRequest;
 import com.cong.lunarsurvey.model.entity.UserAnswer;
 import com.cong.lunarsurvey.model.vo.UserAnswerVO;
@@ -45,4 +46,12 @@ public interface UserAnswerService extends IService<UserAnswer> {
      * @return Page<UserAnswerVO>
      */
     Page<UserAnswerVO> getUserAnswerVOPage(Page<UserAnswer> userAnswerPage);
+
+    /**
+     * 添加用户答案
+     *
+     * @param userAnswerAddRequest 用户应答添加请求
+     * @return long
+     */
+    long addUserAnswer(UserAnswerAddRequest userAnswerAddRequest);
 }
