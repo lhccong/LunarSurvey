@@ -44,3 +44,7 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.cong.lunarsurvey.controller
+# AI 配置
+ai:
+  zhipu:
+    api-key: 智谱官网申请的 API Key
