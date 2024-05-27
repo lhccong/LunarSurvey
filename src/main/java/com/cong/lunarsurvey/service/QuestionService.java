@@ -3,9 +3,13 @@ package com.cong.lunarsurvey.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cong.lunarsurvey.model.dto.question.AiGenerateQuestionRequest;
+import com.cong.lunarsurvey.model.dto.question.QuestionContentDTO;
 import com.cong.lunarsurvey.model.dto.question.QuestionQueryRequest;
 import com.cong.lunarsurvey.model.entity.Question;
 import com.cong.lunarsurvey.model.vo.QuestionVO;
+
+import java.util.List;
 
 /**
  * 题目服务
@@ -45,4 +49,12 @@ public interface QuestionService extends IService<Question> {
      * @return Page<QuestionVO>
      */
     Page<QuestionVO> getQuestionVOPage(Page<Question> questionPage);
+
+    /**
+     * AI 生成问题
+     *
+     * @param aiGenerateQuestionRequest AI 生成问题请求
+     * @return {@link List }<{@link QuestionContentDTO }>
+     */
+    List<QuestionContentDTO> aiGenerateQuestion(AiGenerateQuestionRequest aiGenerateQuestionRequest);
 }

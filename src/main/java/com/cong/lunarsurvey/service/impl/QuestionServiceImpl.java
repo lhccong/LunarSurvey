@@ -1,17 +1,22 @@
 package com.cong.lunarsurvey.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cong.lunarsurvey.common.ErrorCode;
 import com.cong.lunarsurvey.constant.CommonConstant;
 import com.cong.lunarsurvey.exception.ThrowUtils;
+import com.cong.lunarsurvey.manager.AiManager;
 import com.cong.lunarsurvey.mapper.QuestionMapper;
+import com.cong.lunarsurvey.model.dto.question.AiGenerateQuestionRequest;
+import com.cong.lunarsurvey.model.dto.question.QuestionContentDTO;
 import com.cong.lunarsurvey.model.dto.question.QuestionQueryRequest;
 import com.cong.lunarsurvey.model.entity.App;
 import com.cong.lunarsurvey.model.entity.Question;
 import com.cong.lunarsurvey.model.entity.User;
+import com.cong.lunarsurvey.model.enums.AppTypeEnum;
 import com.cong.lunarsurvey.model.vo.QuestionVO;
 import com.cong.lunarsurvey.model.vo.UserVO;
 import com.cong.lunarsurvey.service.AppService;
@@ -26,6 +31,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,7 +39,6 @@ import java.util.stream.Collectors;
  * 题目服务实现
  *
  * @author <a href="https://github.com/lhccong">聪</a>
-
  */
 @Service
 @Slf4j
@@ -44,6 +49,11 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
 
     @Resource
     private AppService appService;
+
+    @Resource
+    private AiManager aiManager;
+
+
 
     /**
      * 校验数据
@@ -165,10 +175,65 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
             }
             questionVO.setUser(userService.getUserVO(user));
         });
-        // endregion
 
         questionVOPage.setRecords(questionVOList);
         return questionVOPage;
     }
 
+    @Override
+    public List<QuestionContentDTO> aiGenerateQuestion(AiGenerateQuestionRequest aiGenerateQuestionRequest) {
+        ThrowUtils.throwIf(aiGenerateQuestionRequest == null, ErrorCode.PARAMS_ERROR);
+        // 获取参数
+        Long appId = aiGenerateQuestionRequest.getAppId();
+        int questionNumber = aiGenerateQuestionRequest.getQuestionNumber();
+        int optionNumber = aiGenerateQuestionRequest.getOptionNumber();
+        // 获取应用信息
+        App app = appService.getById(appId);
+        ThrowUtils.throwIf(app == null, ErrorCode.NOT_FOUND_ERROR);
+        // 封装 Prompt
+        String userMessage = getGenerateQuestionUserMessage(app, questionNumber, optionNumber);
+        // AI 生成
+        String result = aiManager.doSyncRequest(GENERATE_QUESTION_SYSTEM_MESSAGE, userMessage, null);
+        // 截取需要的 JSON 信息
+        int start = result.indexOf("[");
+        int end = result.lastIndexOf("]");
+        String json = result.substring(start, end + 1);
+        return JSONUtil.toList(json, QuestionContentDTO.class);
+    }
+
+    private static final String GENERATE_QUESTION_SYSTEM_MESSAGE = "你是一位严谨的出题专家，我会给你如下信息：\n" +
+            "```\n" +
+            "应用名称，\n" +
+            "【【【应用描述】】】，\n" +
+            "应用类别，\n" +
+            "要生成的题目数，\n" +
+            "每个题目的选项数\n" +
+            "```\n" +
+            "\n" +
+            "请你根据上述信息，按照以下步骤来出题：\n" +
+            "1. 要求：题目和选项尽可能地短，题目不要包含序号，每题的选项数以我提供的为主，题目不能重复\n" +
+            "2. 严格按照下面的 json 格式输出题目和选项\n" +
+            "```\n" +
+            "[{\"options\":[{\"value\":\"选项内容\",\"key\":\"A\"},{\"value\":\"\",\"key\":\"B\"}],\"title\":\"题目标题\"}]\n" +
+            "```\n" +
+            "title 是题目，options 是选项，每个选项的 key 按照英文字母序（比如 A、B、C、D）以此类推，value 是选项内容\n" +
+            "3. 检查题目是否包含序号，若包含序号则去除序号\n" +
+            "4. 返回的题目列表格式必须为 JSON 数组";
+
+
+    /**
+     * 生成题目的用户消息
+     *
+     * @param app            应用程序
+     * @param questionNumber 问题编号
+     * @param optionNumber   选项编号
+     * @return {@link String }
+     */
+    private String getGenerateQuestionUserMessage(App app, int questionNumber, int optionNumber) {
+        return app.getAppName() + "\n" +
+                app.getAppDesc() + "\n" +
+                Objects.requireNonNull(AppTypeEnum.getEnumByValue(app.getAppType())).getText() + "类" + "\n" +
+                questionNumber + "\n" +
+                optionNumber;
+    }
 }

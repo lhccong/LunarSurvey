@@ -244,4 +244,17 @@ public class QuestionController {
     }
 
     // endregion
+
+    // region AI 生成题目功能
+
+
+    @PostMapping("/ai_generate")
+    public BaseResponse<List<QuestionContentDTO>> aiGenerateQuestion(
+            @RequestBody AiGenerateQuestionRequest aiGenerateQuestionRequest) {
+        List<QuestionContentDTO> questionContentDTOList = questionService.aiGenerateQuestion(aiGenerateQuestionRequest);
+
+        return ResultUtils.success(questionContentDTOList);
+    }
+
+    // endregion
 }
